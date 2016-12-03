@@ -7,6 +7,6 @@ setup(
     package_dir={'': 'src'},
     zip_safe=False,
     install_requires=[
-        'Django'
+        'Django>=1.8,<1.11',
     ]
 )
