@@ -1,0 +1,12 @@
+[run]
+branch = True
+omit =
+    .tox/*/lib/python*/site-packages/*/migrations/*
+
+[paths]
+app_path =
+    src/header_filter
+    .tox/*/lib/python*/site-packages/header_filter
+
+[report]
+show_missing = True
