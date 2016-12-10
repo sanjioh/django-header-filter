@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 HEADER_FILTER_GROUPS = {
     'group_A': (
         ('X-H-1', 'value'),

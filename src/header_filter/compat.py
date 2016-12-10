@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 try:
     from django.utils.deprecation import MiddlewareMixin
 except ImportError:  # pragma: no cover

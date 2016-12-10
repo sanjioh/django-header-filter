@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import pytest
 
 from header_filter import middleware as mw
