@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 
-from header_filter.actions import Enforce, Forbid
 from header_filter.matchers import Header
+from header_filter.rules import Enforce, Forbid
 
 
 def test_enforce_with_good_request(rf):
