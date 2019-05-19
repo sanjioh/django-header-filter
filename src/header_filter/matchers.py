@@ -1,5 +1,8 @@
 class BaseMatcher:
 
+    def match(self, request):
+        return False
+
     def __invert__(self):
         return Not(self)
 
