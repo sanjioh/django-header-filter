@@ -1,3 +1,6 @@
+import re
+
+
 class BaseMatcher:
 
     def match(self, request):
@@ -47,3 +50,15 @@ class Header(BaseMatcher):
 
     def match(self, request):
         return self._header in request.META.items()
+
+
+class HeaderRegexp(BaseMatcher):
+    def __init__(self, name_re, value_re):
+        self._name_re = re.compile(name_re)
+        self._value_re = re.compile(value_re)
+
+    def match(self, request):
+        for name, value in request.META.items():
+            if self._name_re.fullmatch(name) and self._value_re.fullmatch(value):
+                return True
+        return False
