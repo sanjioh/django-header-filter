@@ -46,10 +46,16 @@ class Not(BaseMatcher):
 class Header(BaseMatcher):
 
     def __init__(self, name, value):
-        self._header = (name, value)
+        self._name = name
+        self._value = value
 
     def match(self, request):
-        return self._header in request.META.items()
+        try:
+            current_value = request.META[self._name]
+        except KeyError:
+            return False
+        else:
+            return current_value == self._value
 
 
 class HeaderRegexp(BaseMatcher):
