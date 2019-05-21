@@ -68,11 +68,3 @@ class HeaderRegexp(BaseMatcher):
             if self._name_re.fullmatch(name) and self._value_re.fullmatch(value):
                 return True
         return False
-
-
-class HeaderName(BaseMatcher):
-    def __init__(self, name):
-        self._name = name
-
-    def match(self, request):
-        return self._name in request.META
