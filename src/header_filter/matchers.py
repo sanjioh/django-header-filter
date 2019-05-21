@@ -1,5 +1,7 @@
 import re
 
+RE_TYPE = type(re.compile(r''))
+
 
 class BaseMatcher:
 
@@ -48,15 +50,14 @@ class Header(BaseMatcher):
     def __init__(self, name, value):
         self._name = name
         self._value = value
-        self._init_value_comparison_method()
+        self._compare_value = self._get_value_comparison_method()
 
-    def _init_value_comparison_method(self):
-        if isinstance(self._value, re.Pattern):
-            self._compare_value = self._compare_value_to_re_object
-        elif isinstance(self._value, str):
-            self._compare_value = self._compare_value_to_str
-        else:
-            self._compare_value = self._compare_value_to_iterable
+    def _get_value_comparison_method(self):
+        if isinstance(self._value, RE_TYPE):
+            return self._compare_value_to_re_object
+        if isinstance(self._value, str):
+            return self._compare_value_to_str
+        return self._compare_value_to_iterable
 
     def _compare_value_to_re_object(self, request_value):
         return bool(self._value.fullmatch(request_value))
