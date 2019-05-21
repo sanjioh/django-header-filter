@@ -48,14 +48,32 @@ class Header(BaseMatcher):
     def __init__(self, name, value):
         self._name = name
         self._value = value
+        self._init_value_comparison_method()
+
+    def _init_value_comparison_method(self):
+        if isinstance(self._value, re.Pattern):
+            self._compare_value = self._compare_value_to_re_object
+        elif isinstance(self._value, str):
+            self._compare_value = self._compare_value_to_str
+        else:
+            self._compare_value = self._compare_value_to_iterable
+
+    def _compare_value_to_re_object(self, request_value):
+        return bool(self._value.fullmatch(request_value))
+
+    def _compare_value_to_str(self, request_value):
+        return request_value == self._value
+
+    def _compare_value_to_iterable(self, request_value):
+        return request_value in set(self._value)
 
     def match(self, request):
         try:
-            current_value = request.META[self._name]
+            request_value = request.META[self._name]
         except KeyError:
             return False
         else:
-            return current_value == self._value
+            return self._compare_value(request_value)
 
 
 class HeaderRegexp(BaseMatcher):
