@@ -18,7 +18,7 @@ def test_enforce_with_bad_request_and_default_response(rf):
     request = rf.get('/', **{'HTTP_X_B': 'val_y'})
     response = action.process(request)
     assert isinstance(response, HttpResponse)
-    assert response.reason_phrase == 'BAD REQUEST'
+    assert response.reason_phrase == 'Bad Request'
     assert response.status_code == 400
 
 
@@ -47,7 +47,7 @@ def test_forbid_with_bad_request_and_default_response(rf):
     request = rf.get('/', **{h_name: h_value})
     response = action.process(request)
     assert isinstance(response, HttpResponse)
-    assert response.reason_phrase == 'BAD REQUEST'
+    assert response.reason_phrase == 'Bad Request'
     assert response.status_code == 400
 
 
