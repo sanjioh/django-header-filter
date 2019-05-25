@@ -36,6 +36,16 @@ class Or(BaseMatcher):
         return any(header.match(request) for header in self._headers)
 
 
+class Xor(BaseMatcher):
+
+    def __init__(self, header1, header2):
+        self._header1 = header1
+        self._header2 = header2
+
+    def match(self, request):
+        return self._header1.match(request) != self._header2.match(request)
+
+
 class Not(BaseMatcher):
 
     def __init__(self, header):
@@ -75,6 +85,9 @@ class Header(BaseMatcher):
             return False
         else:
             return self._compare_value(request_value)
+
+    def __xor__(self, other):
+        return Xor(self, other)
 
 
 class HeaderRegexp(BaseMatcher):
