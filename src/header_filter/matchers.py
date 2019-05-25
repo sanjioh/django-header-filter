@@ -43,7 +43,7 @@ class Xor(BaseMatcher):
         self._header2 = header2
 
     def match(self, request):
-        return self._header1.match(request) != self._header2.match(request)
+        return self._header1.match(request) is not self._header2.match(request)
 
 
 class Not(BaseMatcher):
