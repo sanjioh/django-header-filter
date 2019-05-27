@@ -17,6 +17,9 @@ class BaseMatcher:
     def __or__(self, other):
         return Or(self, other)
 
+    def __xor__(self, other):
+        return Xor(self, other)
+
 
 class And(BaseMatcher):
 
@@ -85,9 +88,6 @@ class Header(BaseMatcher):
             return False
         else:
             return self._compare_value(request_value)
-
-    def __xor__(self, other):
-        return Xor(self, other)
 
 
 class HeaderRegexp(BaseMatcher):
