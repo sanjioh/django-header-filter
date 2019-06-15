@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
 setup(
@@ -8,6 +7,6 @@ setup(
     package_dir={'': 'src'},
     zip_safe=False,
     install_requires=[
-        'Django>=1.8,<1.11',
-    ]
+        'Django>=1.11,<2.3',
+    ],
 )
