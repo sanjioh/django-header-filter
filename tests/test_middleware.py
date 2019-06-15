@@ -20,9 +20,7 @@ def test_empty_rule_list_setting(settings, rf):
 
 def test_one_rule_and_good_request(settings, rf):
     h_name, h_value = 'HTTP_X_A', 'val_x'
-    settings.HEADER_FILTER_RULES = [
-        Enforce(Header(h_name, h_value)),
-    ]
+    settings.HEADER_FILTER_RULES = [Enforce(Header(h_name, h_value))]
     mw = HeaderFilterMiddleware(lambda request: HttpResponse())
     request = rf.get('/', **{h_name: h_value})
     response = mw(request)
@@ -30,9 +28,7 @@ def test_one_rule_and_good_request(settings, rf):
 
 
 def test_one_rule_and_bad_request(settings, rf):
-    settings.HEADER_FILTER_RULES = [
-        Enforce(Header('HTTP_X_A', 'val_x')),
-    ]
+    settings.HEADER_FILTER_RULES = [Enforce(Header('HTTP_X_A', 'val_x'))]
     mw = HeaderFilterMiddleware(lambda request: HttpResponse())
     request = rf.get('/', **{'HTTP_X_B': 'val_y'})
     response = mw(request)
@@ -40,10 +36,7 @@ def test_one_rule_and_bad_request(settings, rf):
 
 
 def test_two_rules_and_bad_request_triggers_the_second(settings, rf):
-    settings.HEADER_FILTER_RULES = [
-        Enforce(Header('HTTP_X_A', 'val_x')),
-        Forbid(Header('HTTP_X_B', 'val_y')),
-    ]
+    settings.HEADER_FILTER_RULES = [Enforce(Header('HTTP_X_A', 'val_x')), Forbid(Header('HTTP_X_B', 'val_y'))]
     mw = HeaderFilterMiddleware(lambda request: HttpResponse())
     request = rf.get('/', **{'HTTP_X_A': 'val_x', 'HTTP_X_B': 'val_y'})
     response = mw(request)

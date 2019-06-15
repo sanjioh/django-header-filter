@@ -4,7 +4,6 @@ RE_TYPE = type(re.compile(r''))
 
 
 class BaseMatcher:
-
     def match(self, request):
         return False
 
@@ -22,7 +21,6 @@ class BaseMatcher:
 
 
 class And(BaseMatcher):
-
     def __init__(self, header1, header2):
         self._headers = (header1, header2)
 
@@ -31,7 +29,6 @@ class And(BaseMatcher):
 
 
 class Or(BaseMatcher):
-
     def __init__(self, header1, header2):
         self._headers = (header1, header2)
 
@@ -40,7 +37,6 @@ class Or(BaseMatcher):
 
 
 class Xor(BaseMatcher):
-
     def __init__(self, header1, header2):
         self._header1 = header1
         self._header2 = header2
@@ -50,7 +46,6 @@ class Xor(BaseMatcher):
 
 
 class Not(BaseMatcher):
-
     def __init__(self, header):
         self._header = header
 
@@ -59,7 +54,6 @@ class Not(BaseMatcher):
 
 
 class Header(BaseMatcher):
-
     def __init__(self, name, value):
         self._name = name
         self._value = value
