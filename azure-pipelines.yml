@@ -2,9 +2,6 @@
 trigger:
   - master
 
-pr:
-  - master
-
 jobs:
   - job: 'Test'
     pool:
