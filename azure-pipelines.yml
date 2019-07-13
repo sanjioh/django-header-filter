@@ -3,7 +3,7 @@ trigger:
   - master
 
 jobs:
-  - job: 'Test'
+  - job: Test
     pool:
       vmImage: 'ubuntu-latest'
     strategy:
@@ -29,35 +29,35 @@ jobs:
 
     steps:
       - task: UsePythonVersion@0
-        displayName: Get Python for Python tools.
         inputs:
           versionSpec: '3.7'
           addToPath: false
-        name: pyTools
+        name: tox_python
+        displayName: Get tox host Python.
 
-      - script: $(pyTools.pythonLocation)/bin/pip install --upgrade tox
-        displayName: Install Python-based tools.
+      - script: $(tox_python.pythonLocation)/bin/pip install -U tox
+        displayName: Install tox.
 
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(python.version)'
-          architecture: 'x64'
-        displayName: Use cached Python $(python.version) for tests.
+          versionSpec: $(python.version)
+          addToPath: true
+        displayName: Get Python $(python.version) for tests.
 
-      - script: $(pyTools.pythonLocation)/bin/tox -e $(tox.env)
-        displayName: run tox -e $(tox.env)
+      - script: $(tox_python.pythonLocation)/bin/tox -e $(tox.env)
+        displayName: Run tox env '$(tox.env)'.
 
       - script: |
-          if [ ! -f .coverage.* ]; then
+          set -x
+          if [ `find . -maxdepth 1 -type f -name '.coverage.*' | wc -l` -eq 0 ]; then
             echo No coverage data found.
             exit 0
           fi
-
           PATH=$HOME/.local/bin:$PATH
-          python$(python.version) -m pip install --user coverage codecov
+          python$(python.version) -m pip install --user -U coverage codecov
           coverage combine
           codecov
         env:
           CODECOV_TOKEN: $(codecov.token)
-        displayName: Report Coverage
         condition: succeeded()
+        displayName: Report coverage.
