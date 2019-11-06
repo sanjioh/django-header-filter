@@ -56,7 +56,7 @@ def test_first_violation_is_final(rf, view):
             Enforce(Header('HTTP_X_A', 'val_x')),
             Forbid(Header('HTTP_X_B', 'val_y'), reject_response=HttpResponseForbidden()),
             Enforce(Header('HTTP_X_C', 'val_z')),
-        ]
+        ],
     )(view)
     request = rf.get('/', **{'HTTP_X_A': 'val_x', 'HTTP_X_B': 'val_y'})
     response = decorated_view(request)
