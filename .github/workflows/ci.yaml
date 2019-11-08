@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --upgrade pip tox
       - name: Lint
-        run: python -m tox -e black,isort,flake8,check-manifest,pypi-description
+        run: python -m tox -e black,isort,flake8,pydocstyle,check-manifest,pypi-description
 
   test:
     needs: lint
