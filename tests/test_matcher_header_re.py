@@ -49,3 +49,10 @@ def test_header_name_and_value_dont_match_re_object(rf):
     matcher = HeaderRegexp(re.compile(r'^HTTP_X_A.*$'), re.compile(r'^val_.$'))
     request = rf.get('/', **{'HTTP_X_B_XYZ': 'val_'})
     assert matcher.match(request) is False
+
+
+def test_repr():
+    assert (
+        repr(HeaderRegexp(re.compile(r'^HTTP_X_A.*$'), re.compile(r'^val_.$')))
+        == "HeaderRegexp(re.compile('^HTTP_X_A.*$'), re.compile('^val_.$'))"
+    )

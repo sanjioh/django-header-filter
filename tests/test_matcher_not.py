@@ -31,3 +31,7 @@ def test_not_matcher_supports_bitwise_xor(rf):
     matcher = ~Header(h_name_2, h_value_2) ^ Header(h_name_3, h_value_3)
     request = rf.get('/', **{h_name_1: h_value_1, h_name_2: h_value_2, h_name_3: h_value_3})
     assert matcher.match(request) is True
+
+
+def test_repr():
+    assert repr(~Header('HTTP_X_A', 'val_x')) == "~Header('HTTP_X_A', 'val_x')"

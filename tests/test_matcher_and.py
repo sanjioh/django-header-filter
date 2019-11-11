@@ -34,3 +34,10 @@ def test_and_matcher_supports_bitwise_xor(rf):
     matcher = (Header(h_name_1, h_value_1) & Header(h_name_2, h_value_2)) ^ Header(h_name_3, h_value_3)
     request = rf.get('/', **{h_name_1: h_value_1, h_name_2: h_value_2, h_name_3: h_value_3})
     assert matcher.match(request) is False
+
+
+def test_repr():
+    assert (
+        repr(Header('HTTP_X_A', 'val_x') & Header('HTTP_X_B', 'val_y'))
+        == "(Header('HTTP_X_A', 'val_x') & Header('HTTP_X_B', 'val_y'))"
+    )

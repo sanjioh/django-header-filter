@@ -56,3 +56,9 @@ def test_header_value_doesnt_match_iterable(rf):
     matcher = Header(h_name, ['val_x', 'val_y', 'val_z'])
     request = rf.get('/', **{h_name: 'val_w'})
     assert matcher.match(request) is False
+
+
+def test_repr():
+    assert repr(Header('HTTP_X_A', 'val_x')) == "Header('HTTP_X_A', 'val_x')"
+    assert repr(Header('HTTP_X_A', re.compile(r'^val_.$'))) == "Header('HTTP_X_A', re.compile('^val_.$'))"
+    assert repr(Header('HTTP_X_A', ['val_x', 'val_y', 'val_z'])) == "Header('HTTP_X_A', ['val_x', 'val_y', 'val_z'])"

@@ -54,6 +54,9 @@ class And(BaseMatcher):
         """
         return all(matcher.match(request) for matcher in self._matchers)
 
+    def __repr__(self):
+        return '({!r} & {!r})'.format(*self._matchers)
+
 
 class Or(BaseMatcher):
     """Composite matcher that implements the bitwise OR operation."""
@@ -74,6 +77,9 @@ class Or(BaseMatcher):
         returns: a boolean.
         """
         return any(matcher.match(request) for matcher in self._matchers)
+
+    def __repr__(self):
+        return '({!r} | {!r})'.format(*self._matchers)
 
 
 class Xor(BaseMatcher):
@@ -97,6 +103,9 @@ class Xor(BaseMatcher):
         """
         return self._matcher1.match(request) is not self._matcher2.match(request)
 
+    def __repr__(self):
+        return '({!r} ^ {!r})'.format(self._matcher1, self._matcher2)
+
 
 class Not(BaseMatcher):
     """Composite matcher that implements the bitwise NOT operation."""
@@ -118,6 +127,9 @@ class Not(BaseMatcher):
         """
         return not self._matcher.match(request)
 
+    def __repr__(self):
+        return '~{!r}'.format(self._matcher)
+
 
 class Header(BaseMatcher):
     """HTTP header matcher."""
@@ -128,7 +140,7 @@ class Header(BaseMatcher):
 
         `name`: a header name, as string.
         `value`: a header value, as string, compiled regular expression
-        object, or iterable.
+        object, or iterable of strings.
         """
         self._name = name
         self._value = value
@@ -159,7 +171,8 @@ class Header(BaseMatcher):
         matcher has been initialized with, and
         b) the header value is equal, matches, or belongs to the value
         the matcher has been initialized with, depending on that being
-        respectively a string, a compiled regexp object, or an iterable.
+        respectively a string, a compiled regexp object, or an iterable
+        of strings.
 
         `request`: a Django request.
         returns: a boolean.
@@ -170,6 +183,9 @@ class Header(BaseMatcher):
             return False
         else:
             return self._compare_value(request_value)
+
+    def __repr__(self):
+        return '{}({!r}, {!r})'.format(self.__class__.__name__, self._name, self._value)
 
 
 class HeaderRegexp(BaseMatcher):
@@ -202,3 +218,6 @@ class HeaderRegexp(BaseMatcher):
             if self._name_re.fullmatch(name) and self._value_re.fullmatch(value):
                 return True
         return False
+
+    def __repr__(self):
+        return '{}({!r}, {!r})'.format(self.__class__.__name__, self._name_re, self._value_re)
