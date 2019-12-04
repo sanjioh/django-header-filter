@@ -1,5 +1,6 @@
 include *.py
 include *.toml
+include *.yml
 include .coveragerc
 include tox.ini
 recursive-include tests *.py
